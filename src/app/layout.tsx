@@ -5,6 +5,7 @@ import "./globals.css";
 import { Background } from "@/component/atoms/Background";
 import { DigitalRain } from "@/component/atoms/DigitalRain";
 import { FirebaseAnalytics } from "@/component/atoms/FirebaseAnalytics";
+import { ConsoleWelcome } from "@/component/atoms/ConsoleWelcome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +45,7 @@ export default function RootLayout({
       >
         <Background />
         <DigitalRain />
+        <ConsoleWelcome />
         <Suspense fallback={null}>
           <FirebaseAnalytics />
         </Suspense>

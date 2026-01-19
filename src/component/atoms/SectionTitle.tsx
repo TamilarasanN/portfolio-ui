@@ -38,7 +38,8 @@ export function SectionTitle({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="mt-4 text-3xl font-bold text-white md:text-4xl"
+        className={`mt-4 text-3xl font-bold text-white md:text-4xl ${title === "Work Experience" ? "group" : ""}`}
+        title={title === "Work Experience" ? "💡 Hint: Try Alt/Option + Click" : undefined}
       >
         {title}
       </motion.h2>

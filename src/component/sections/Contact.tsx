@@ -143,20 +143,22 @@ export function Contact({ profile }: ContactProps) {
           }}
         />
         
-        <div className="relative z-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm">
-          <div className="text-white/70">
-            © {new Date().getFullYear()} <span className="font-semibold text-white">{profile.name}</span>
-            <span className="ml-2 text-cyan-300/70 font-medium">• Welcome to the OASIS</span>
-          </div>
-          <div className="text-white/50 flex items-center gap-1">
-            <span>Built with</span>
-            <span className="text-cyan-300/70 font-medium">Next</span>
-            <span className="text-white/40">•</span>
-            <span className="text-purple-300/70 font-medium">Tailwind</span>
-            <span className="text-white/40">•</span>
-            <span className="text-green-300/70 font-medium">Framer Motion</span>
-          </div>
-        </div>
+               <div className="relative z-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm">
+                 <div className="text-white/70">
+                   © {new Date().getFullYear()} <span className="font-semibold text-white">{profile.name}</span>
+                   <span className="ml-2 text-cyan-300/70 font-medium">• Welcome to the OASIS</span>
+                   <span className="ml-2 text-white/30 text-xs italic">(Discover the hidden keys)</span>
+                 </div>
+                 <div className="text-white/50 flex items-center gap-1">
+                   <span>Built with</span>
+                   <span className="text-cyan-300/70 font-medium">Next</span>
+                   <span className="text-white/40">•</span>
+                   <span className="text-purple-300/70 font-medium">Tailwind</span>
+                   <span className="text-white/40">•</span>
+                   <span className="text-green-300/70 font-medium">Framer Motion</span>
+                   <span className="ml-2 text-white/20 text-xs">• Alt+Click headings • Type "OASIS"</span>
+                 </div>
+               </div>
       </footer>
     </motion.section>
   );

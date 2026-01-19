@@ -11,6 +11,20 @@ export function useOasisEasterEgg() {
   const [isActive, setIsActive] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [showBreaking, setShowBreaking] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  // Show subtle hint after 60 seconds if user hasn't found it
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (sequence.length === 0 && !isActive) {
+        setShowHint(true);
+        // Hide hint after 10 seconds
+        setTimeout(() => setShowHint(false), 10000);
+      }
+    }, 60000); // 60 seconds
+
+    return () => clearTimeout(timer);
+  }, [sequence.length, isActive]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -25,6 +39,11 @@ export function useOasisEasterEgg() {
       }
 
       const key = e.key.toLowerCase();
+      
+      // Hide hint when user starts typing
+      if (key && showHint) {
+        setShowHint(false);
+      }
 
       // Reset sequence if wrong key
       if (key !== OASIS_SEQUENCE[sequence.length]) {
@@ -80,9 +99,9 @@ export function useOasisEasterEgg() {
       window.removeEventListener("keydown", handleKeyPress);
       clearTimeout(resetTimeout);
     };
-  }, [sequence]);
+  }, [sequence, showHint]);
 
-  return { isActive, showMessage, showBreaking };
+  return { isActive, showMessage, showBreaking, showHint };
 }
 
 // Breaking particles for the animation
@@ -174,7 +193,7 @@ function GlitchText({ children }: { children: React.ReactNode }) {
 }
 
 export function OasisEasterEgg() {
-  const { showMessage, showBreaking } = useOasisEasterEgg();
+  const { showMessage, showBreaking, showHint } = useOasisEasterEgg();
 
   return (
     <>
@@ -292,6 +311,24 @@ export function OasisEasterEgg() {
                 </motion.p>
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Subtle hint for OASIS sequence */}
+      <AnimatePresence>
+        {showHint && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[10000] pointer-events-none"
+          >
+            <div className="bg-zinc-950/90 border border-purple-400/30 rounded-lg px-4 py-2 text-xs text-purple-300 flex items-center gap-2 shadow-lg backdrop-blur-sm">
+              <span>🔍</span>
+              <span>Try typing the theme word...</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

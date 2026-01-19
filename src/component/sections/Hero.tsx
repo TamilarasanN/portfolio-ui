@@ -44,7 +44,8 @@ export function Hero({ profile }: HeroProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={reduce ? { duration: 0 } : { duration: 0.5, delay: 0.1 }}
-            className="text-4xl font-semibold leading-[1.06] md:text-6xl relative"
+            className="text-4xl font-semibold leading-[1.06] md:text-6xl relative group"
+            title="💡 Hint: Try Alt/Option + Click"
           >
             Building scalable, secure, high-performance
             <motion.span 
