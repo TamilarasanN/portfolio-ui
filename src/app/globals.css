@@ -20,7 +20,25 @@
 }
 
 body {
-  background: var(--background);
+  background: #000000; /* Black background for Ready Player One style */
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide Next.js floating icon/indicator */
+#__next-build-watcher,
+.__next-build-indicator,
+[data-nextjs-build-indicator],
+a[href*="__nextjs"],
+iframe[src*="__nextjs"],
+/* Common Next.js indicator patterns */
+body > a[style*="position: fixed"][style*="bottom"],
+body > div[style*="position: fixed"][style*="bottom"][style*="left"],
+/* Hide any link or div fixed at bottom left */
+a[style*="left: 0"][style*="bottom: 0"],
+div[style*="left: 0"][style*="bottom: 0"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
