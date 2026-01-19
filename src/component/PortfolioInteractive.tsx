@@ -11,6 +11,9 @@ import { HowIWork } from "./sections/HowIWork";
 import { Contact } from "./sections/Contact";
 import { ThemeValidation } from "./sections/ThemeValidation";
 import { ParzivalNPC } from "./interactive/ParzivalNPC";
+import { OasisEasterEgg } from "./atoms/OasisEasterEgg";
+import { SystemMode, useSystemModeTrigger } from "./atoms/SystemMode";
+import { TimelineDeepDive, useTimelineDeepDiveTrigger } from "./atoms/TimelineDeepDive";
 import { useScrollSpy } from "./hooks";
 
 interface PortfolioData {
@@ -50,6 +53,8 @@ export default function PortfolioInteractive({
   const [activeSection, setActiveSection] = useState<string>("");
   const [isManualNavigation, setIsManualNavigation] = useState(false);
   const [lockedSection, setLockedSection] = useState<string | null>(null);
+  const { isSystemModeOpen, setIsSystemModeOpen } = useSystemModeTrigger();
+  const { isOpen: isDeepDiveOpen, setIsOpen: setIsDeepDiveOpen, firstExperience } = useTimelineDeepDiveTrigger();
 
   // Filter featured projects (FAHR, DT360, etc.) - projects with IDs: fahr, bayanati, or names containing "FAHR" or "DT360"
   const featuredProjects = useMemo(() => {
@@ -179,6 +184,22 @@ export default function PortfolioInteractive({
 
       {/* Floating Parzival NPC */}
       <ParzivalNPC />
+
+      {/* OASIS Easter Egg - Type "OASIS" anywhere on the site */}
+      <OasisEasterEgg />
+
+      {/* System Mode Easter Egg - Alt/Option + Click on Profile or Experience heading */}
+      <SystemMode 
+        open={isSystemModeOpen} 
+        onClose={() => setIsSystemModeOpen(false)} 
+      />
+
+      {/* Timeline Deep Dive Easter Egg - Triple click first experience dot */}
+      <TimelineDeepDive 
+        open={isDeepDiveOpen} 
+        onClose={() => setIsDeepDiveOpen(false)}
+        experience={firstExperience}
+      />
     </div>
   );
 }

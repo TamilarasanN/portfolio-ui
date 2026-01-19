@@ -42,3 +42,178 @@ div[style*="left: 0"][style*="bottom: 0"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+/* OASIS Easter Egg - Breaking animation */
+@keyframes oasisBreaking {
+  0% {
+    transform: translateX(0);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  10% {
+    transform: translateX(-2px) translateY(1px);
+    filter: hue-rotate(90deg) brightness(1.2);
+  }
+  20% {
+    transform: translateX(2px) translateY(-1px);
+    filter: hue-rotate(180deg) brightness(0.9);
+  }
+  30% {
+    transform: translateX(-1px) translateY(2px);
+    filter: hue-rotate(270deg) brightness(1.1);
+  }
+  40% {
+    transform: translateX(1px) translateY(-2px);
+    filter: hue-rotate(360deg) brightness(1);
+  }
+  50% {
+    transform: translateX(-3px);
+    filter: hue-rotate(90deg) brightness(1.3);
+  }
+  60% {
+    transform: translateX(3px);
+    filter: hue-rotate(180deg) brightness(0.8);
+  }
+  70% {
+    transform: translateX(-2px) translateY(3px);
+    filter: hue-rotate(270deg) brightness(1.2);
+  }
+  80% {
+    transform: translateX(2px) translateY(-3px);
+    filter: hue-rotate(360deg) brightness(0.9);
+  }
+  90% {
+    transform: translateX(-1px);
+    filter: hue-rotate(90deg) brightness(1.1);
+  }
+  100% {
+    transform: translateX(0);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+}
+
+@keyframes oasisGlitch {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+  }
+  10% {
+    clip-path: inset(20% 0 60% 0);
+  }
+  20% {
+    clip-path: inset(60% 0 20% 0);
+  }
+  30% {
+    clip-path: inset(40% 0 40% 0);
+  }
+  40% {
+    clip-path: inset(10% 0 80% 0);
+  }
+  50% {
+    clip-path: inset(80% 0 10% 0);
+  }
+  60% {
+    clip-path: inset(30% 0 50% 0);
+  }
+  70% {
+    clip-path: inset(70% 0 20% 0);
+  }
+  80% {
+    clip-path: inset(15% 0 75% 0);
+  }
+  90% {
+    clip-path: inset(85% 0 5% 0);
+  }
+}
+
+@keyframes oasisScreenShake {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-5px, -5px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(5px, 5px) rotate(1deg);
+  }
+  30% {
+    transform: translate(-3px, 3px) rotate(-0.5deg);
+  }
+  40% {
+    transform: translate(3px, -3px) rotate(0.5deg);
+  }
+  50% {
+    transform: translate(-4px, 4px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(4px, -4px) rotate(1deg);
+  }
+  70% {
+    transform: translate(-2px, 2px) rotate(-0.5deg);
+  }
+  80% {
+    transform: translate(2px, -2px) rotate(0.5deg);
+  }
+  90% {
+    transform: translate(-1px, 1px) rotate(-0.25deg);
+  }
+}
+
+body.oasis-breaking {
+  animation: oasisBreaking 1.5s ease-in-out, oasisScreenShake 1.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+body.oasis-breaking::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(56, 189, 248, 0.03) 2px,
+      rgba(56, 189, 248, 0.03) 4px
+    ),
+    radial-gradient(
+      circle at center,
+      rgba(56, 189, 248, 0.2),
+      rgba(168, 85, 247, 0.15),
+      transparent 70%
+    );
+  animation: oasisGlitch 1.5s steps(10) infinite;
+  mix-blend-mode: screen;
+}
+
+body.oasis-breaking::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9996;
+  background: 
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(168, 85, 247, 0.1) 50%,
+      transparent 100%
+    );
+  animation: oasisBreaking 1.5s ease-in-out;
+  mix-blend-mode: overlay;
+}
+
+/* Intense glow on interactive elements during breaking */
+body.oasis-breaking [class*="tilt-card"],
+body.oasis-breaking [class*="magnetic-button"],
+body.oasis-breaking [class*="border-cyan"],
+body.oasis-breaking [class*="border-green"],
+body.oasis-breaking [class*="border-purple"] {
+  box-shadow: 
+    0 0 30px rgba(56, 189, 248, 0.6),
+    0 0 60px rgba(168, 85, 247, 0.4),
+    0 0 90px rgba(34, 197, 94, 0.3);
+  transition: box-shadow 0.1s ease;
+  animation: oasisBreaking 1.5s ease-in-out;
+}

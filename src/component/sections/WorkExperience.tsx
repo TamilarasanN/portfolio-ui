@@ -181,7 +181,8 @@ export function WorkExperienceSection({ experiences }: WorkExperienceProps) {
 
             {/* Actual dot */}
             <motion.div
-              className="absolute left-[6px] top-0 h-3 w-3 rounded-full bg-white border-2 border-zinc-950"
+              data-easter-egg-dot="first"
+              className="absolute left-[6px] top-0 h-3 w-3 rounded-full bg-white border-2 border-zinc-950 cursor-pointer"
               style={{
                 y: dotYSpring,
                 boxShadow: "0 0 18px rgba(168,85,247,0.55), 0 0 26px rgba(59,130,246,0.35)",
