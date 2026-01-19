@@ -83,17 +83,17 @@ export function TiltCard({ children, className, onClick, as }: TiltCardProps) {
         <div className="absolute -inset-[1px] rounded-3xl bg-[conic-gradient(from_180deg,rgba(56,189,248,0.0),rgba(56,189,248,0.35),rgba(168,85,247,0.35),rgba(34,197,94,0.22),rgba(56,189,248,0.0))] blur-[10px]" />
       </div>
 
-      {/* Holographic glitch on hover */}
+      {/* Holographic glitch on hover - minimal */}
       {!reduce && (
         <motion.div
           className="pointer-events-none absolute inset-0 rounded-3xl opacity-0"
           animate={state.hover ? {
-            opacity: [0, 0.3, 0],
-            x: [0, -2, 2, -2, 0],
+            opacity: [0, 0.08, 0],
+            x: [0, -0.5, 0.5, -0.5, 0],
           } : {}}
-          transition={{ duration: 0.3, repeat: state.hover ? Infinity : 0, repeatDelay: 2 }}
+          transition={{ duration: 0.4, repeat: state.hover ? Infinity : 0, repeatDelay: 4 }}
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.2), transparent)",
             mixBlendMode: "screen",
           }}
         />

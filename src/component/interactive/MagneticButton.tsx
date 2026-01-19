@@ -86,17 +86,17 @@ export function MagneticButton({
       {children}
       <span className="pointer-events-none absolute -inset-10 opacity-40 blur-2xl bg-[conic-gradient(from_90deg,rgba(56,189,248,0.0),rgba(56,189,248,0.25),rgba(168,85,247,0.25),rgba(34,197,94,0.18),rgba(56,189,248,0.0))]" />
       
-      {/* Holographic glitch effect on hover */}
+      {/* Holographic glitch effect on hover - minimal */}
       {!reduce && hover && (
         <motion.span
           className="pointer-events-none absolute inset-0 rounded-xl opacity-0"
           animate={{
-            opacity: [0, 0.4, 0],
-            x: [0, -1, 1, -1, 0],
+            opacity: [0, 0.1, 0],
+            x: [0, -0.3, 0.3, 0],
           }}
-          transition={{ duration: 0.15, repeat: 2 }}
+          transition={{ duration: 0.2, repeat: 1 }}
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.6), transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.25), transparent)",
             mixBlendMode: "screen",
           }}
         />

@@ -283,16 +283,16 @@ export function Background() {
         </div>
       )}
 
-      {/* Holographic glitch overlay (subtle scan lines that flicker) */}
+      {/* Holographic glitch overlay (subtle scan lines that flicker) - minimal */}
       {!reduce && isMounted && (
         <motion.div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-5"
           aria-hidden="true"
           animate={{
-            opacity: [0.15, 0.25, 0.18, 0.22, 0.15],
+            opacity: [0.03, 0.05, 0.04, 0.05, 0.03],
           }}
           transition={{
-            duration: 3,
+            duration: 6,
             repeat: Infinity,
             ease: "easeInOut",
           }}
@@ -301,8 +301,8 @@ export function Background() {
               0deg,
               transparent,
               transparent 2px,
-              rgba(56,189,248,0.03) 2px,
-              rgba(56,189,248,0.03) 4px
+              rgba(56,189,248,0.015) 2px,
+              rgba(56,189,248,0.015) 4px
             )`,
             mixBlendMode: "screen",
           }}
@@ -418,27 +418,27 @@ export function Background() {
         </div>
       )}
 
-             {/* Holographic Glitch Artifacts - Random glitch lines */}
+             {/* Holographic Glitch Artifacts - Random glitch lines - minimal */}
              {!reduce && isMounted && (
                <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-                 {Array.from({ length: 4 }).map((_, i) => (
+                 {Array.from({ length: 2 }).map((_, i) => (
                    <motion.div
                      key={i}
-                     className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent"
+                     className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent"
                      initial={{
                        y: Math.random() * window.innerHeight,
                        opacity: 0,
                        scaleX: 0,
                      }}
                      animate={{
-                       opacity: [0, 0.8, 0],
+                       opacity: [0, 0.3, 0],
                        scaleX: [0, 1, 0],
                        y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
                      }}
                      transition={{
-                       duration: 0.4,
+                       duration: 0.3,
                        repeat: Infinity,
-                       repeatDelay: 5 + Math.random() * 10,
+                       repeatDelay: 15 + Math.random() * 20,
                        ease: "linear",
                      }}
                    />

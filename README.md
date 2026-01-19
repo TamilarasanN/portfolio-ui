@@ -1,5 +1,27 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables Setup
+
+Before running the application, you need to set up environment variables. See [VERCEL_ENV_SETUP.md](./VERCEL_ENV_SETUP.md) for detailed instructions.
+
+### Quick Setup
+
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Update `.env.local` with your values:
+   ```bash
+   NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+   STRAPI_API_TOKEN=your-token-here
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ```
+
+3. For Vercel deployment, add these environment variables in your Vercel project settings.
+
+See [VERCEL_ENV_SETUP.md](./VERCEL_ENV_SETUP.md) for complete setup instructions.
+
 ## Getting Started
 
 First, run the development server:
