@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { Navigation } from "./sections/Navigation";
 import { Hero } from "./sections/Hero";
 import { FeaturedProjects } from "./sections/FeaturedProjects";
@@ -12,7 +12,6 @@ import { Contact } from "./sections/Contact";
 import { ThemeValidation } from "./sections/ThemeValidation";
 import { ParzivalNPC } from "./interactive/ParzivalNPC";
 import { useScrollSpy } from "./hooks";
-import { useClickParticleBurst, ClickParticleBurst } from "./atoms/ClickParticleBurst";
 
 interface PortfolioData {
   profile: {
@@ -51,26 +50,6 @@ export default function PortfolioInteractive({
   const [activeSection, setActiveSection] = useState<string>("");
   const [isManualNavigation, setIsManualNavigation] = useState(false);
   const [lockedSection, setLockedSection] = useState<string | null>(null);
-  const { particles, triggerBurst } = useClickParticleBurst();
-
-  // Add click particle burst on interactive elements
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      // Only trigger on buttons, cards, and interactive elements
-      if (
-        target.closest("button") ||
-        target.closest("[role='button']") ||
-        target.closest(".tilt-card") ||
-        target.closest("a[href]")
-      ) {
-        triggerBurst(e.clientX, e.clientY);
-      }
-    };
-
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, [triggerBurst]);
 
   // Filter featured projects (FAHR, DT360, etc.) - projects with IDs: fahr, bayanati, or names containing "FAHR" or "DT360"
   const featuredProjects = useMemo(() => {
@@ -200,9 +179,6 @@ export default function PortfolioInteractive({
 
       {/* Floating Parzival NPC */}
       <ParzivalNPC />
-
-      {/* Click particle bursts */}
-      <ClickParticleBurst particles={particles} />
     </div>
   );
 }

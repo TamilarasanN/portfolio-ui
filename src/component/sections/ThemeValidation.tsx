@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Zap, Gamepad2, Sparkles, Eye, MessageCircle, ChevronRight } from "lucide-react";
 import { TiltCard } from "../interactive/TiltCard";
@@ -141,175 +142,179 @@ export function ThemeValidationContent() {
       </div>
 
       {/* Character selection grid */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {characters.map((char, index) => {
-          const charColors = colorMap[char.color as keyof typeof colorMap];
-          const isActive = activeCharacter === char.id;
-          
-          return (
-            <motion.div
-              key={char.id}
-              initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              onClick={() => setActiveCharacter(isActive ? null : char.id)}
-              className="cursor-pointer"
-            >
-              <TiltCard
-                as="div"
-                className={`relative overflow-hidden p-4 transition-all ${
-                  isActive
-                    ? `${charColors.border} ${charColors.bg} ring-2 ring-opacity-50`
-                    : "border-white/10 hover:border-white/20"
-                }`}
-              >
-                {/* Character glow effect when active */}
-                {isActive && (
-                  <motion.div
-                    className="absolute inset-0 opacity-60"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.6 }}
-                    style={{
-                      background: `radial-gradient(circle at center, ${charColors.glow}, transparent 70%)`,
-                    }}
-                  />
-                )}
-
-                <div className="relative z-10 text-center">
-                  <motion.div
-                    className="text-5xl mb-2"
-                    animate={isActive ? { scale: [1, 1.2, 1] } : { scale: 1 }}
-                    transition={{ duration: 0.5 }}
+      <div className="mb-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {characters.map((char, index) => {
+            const charColors = colorMap[char.color as keyof typeof colorMap];
+            const isActive = activeCharacter === char.id;
+            const activeIndex = activeCharacter ? characters.findIndex((c) => c.id === activeCharacter) : -1;
+            const shouldShowDetailBelow = isActive && activeIndex === index;
+            
+            return (
+              <React.Fragment key={char.id}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  onClick={() => setActiveCharacter(isActive ? null : char.id)}
+                  className="cursor-pointer"
+                >
+                  <TiltCard
+                    as="div"
+                    className={`relative overflow-hidden p-4 transition-all ${
+                      isActive
+                        ? `${charColors.border} ${charColors.bg} ring-2 ring-opacity-50`
+                        : "border-white/10 hover:border-white/20"
+                    }`}
                   >
-                    {char.avatar}
-                  </motion.div>
-                  <h3 className={`text-sm font-semibold ${isActive ? charColors.text : "text-white/80"}`}>
-                    {char.name}
-                  </h3>
-                  <div className="mt-2 text-xs text-white/50 italic line-clamp-2">
-                    "{char.quote}"
-                  </div>
-                </div>
-              </TiltCard>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Character detail panel */}
-      <AnimatePresence mode="wait">
-        {selectedChar && (
-          <motion.div
-            key={selectedChar.id}
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-          >
-            <TiltCard
-              as="div"
-              className={`relative overflow-hidden p-6 md:p-8 border-2 ${colors.border} ${colors.bg}`}
-            >
-              {/* Animated background glow */}
-              <motion.div
-                className="absolute inset-0 opacity-40"
-                animate={{
-                  background: [
-                    `radial-gradient(circle at 20% 30%, ${colors.glow}, transparent 50%)`,
-                    `radial-gradient(circle at 80% 70%, ${colors.glow}, transparent 50%)`,
-                    `radial-gradient(circle at 20% 30%, ${colors.glow}, transparent 50%)`,
-                  ],
-                }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
-
-              <div className="relative z-10">
-                {/* Character header */}
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <motion.div
-                      className="text-6xl"
-                      animate={{ rotate: [0, 10, -10, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      {selectedChar.avatar}
-                    </motion.div>
-                    <div>
-                      <h3 className={`text-2xl font-bold ${colors.text} mb-1`}>
-                        {selectedChar.name}
-                      </h3>
-                      <p className="text-sm text-white/60 italic">
-                        "{selectedChar.quote}"
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setActiveCharacter(null)}
-                    className={`rounded-lg ${colors.border} ${colors.bg} p-2 hover:opacity-80 transition cursor-pointer`}
-                    aria-label="Close character view"
-                  >
-                    <svg className="h-5 w-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Character message */}
-                <div className="mb-6 p-4 rounded-xl border border-white/10 bg-black/20 backdrop-blur-sm">
-                  <div className="flex items-start gap-3">
-                    <MessageCircle className={`h-5 w-5 ${colors.text} shrink-0 mt-0.5`} />
-                    <p className="text-white/80 leading-relaxed">{selectedChar.message}</p>
-                  </div>
-                </div>
-
-                {/* Validation point */}
-                <div className="border-t border-white/10 pt-6">
-                  <div
-                    onClick={() => setExpandedIndex(expandedIndex === 0 ? null : 0)}
-                    className="cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        {(() => {
-                          const Icon = selectedChar.validation.icon;
-                          return (
-                            <div className={`rounded-xl ${colors.border} ${colors.bg} p-2`}>
-                              <Icon className={`h-5 w-5 ${colors.text}`} />
-                            </div>
-                          );
-                        })()}
-                        <h4 className="text-lg font-semibold text-white">
-                          {selectedChar.validation.title}
-                        </h4>
-                      </div>
+                    {/* Character glow effect when active */}
+                    {isActive && (
                       <motion.div
-                        animate={{ rotate: expandedIndex === 0 ? 90 : 0 }}
-                        transition={{ duration: 0.2 }}
+                        className="absolute inset-0 opacity-60"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.6 }}
+                        style={{
+                          background: `radial-gradient(circle at center, ${charColors.glow}, transparent 70%)`,
+                        }}
+                      />
+                    )}
+
+                    <div className="relative z-10 text-center">
+                      <motion.div
+                        className="text-5xl mb-2"
+                        animate={isActive ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+                        transition={{ duration: 0.5 }}
                       >
-                        <ChevronRight className={`h-5 w-5 ${colors.text}`} />
+                        {char.avatar}
                       </motion.div>
+                      <h3 className={`text-sm font-semibold ${isActive ? charColors.text : "text-white/80"}`}>
+                        {char.name}
+                      </h3>
+                      <div className="mt-2 text-xs text-white/50 italic line-clamp-2">
+                        "{char.quote}"
+                      </div>
                     </div>
-                    <AnimatePresence>
-                      {expandedIndex === 0 && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="text-sm text-white/70 leading-relaxed overflow-hidden"
-                        >
-                          {selectedChar.validation.description}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </div>
-            </TiltCard>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  </TiltCard>
+                </motion.div>
+                
+                {/* Character detail panel - rendered inline below the clicked character */}
+                {shouldShowDetailBelow && selectedChar && (
+                  <motion.div
+                    key={`detail-${selectedChar.id}`}
+                    initial={{ opacity: 0, y: -10, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: "auto" }}
+                    exit={{ opacity: 0, y: -10, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="col-span-full"
+                  >
+                    <TiltCard
+                      as="div"
+                      className={`relative overflow-hidden p-6 md:p-8 border-2 ${colors.border} ${colors.bg}`}
+                    >
+                      {/* Animated background glow */}
+                      <motion.div
+                        className="absolute inset-0 opacity-40"
+                        animate={{
+                          background: [
+                            `radial-gradient(circle at 20% 30%, ${colors.glow}, transparent 50%)`,
+                            `radial-gradient(circle at 80% 70%, ${colors.glow}, transparent 50%)`,
+                            `radial-gradient(circle at 20% 30%, ${colors.glow}, transparent 50%)`,
+                          ],
+                        }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      />
+
+                      <div className="relative z-10">
+                        {/* Character header */}
+                        <div className="flex items-start justify-between mb-6">
+                          <div className="flex items-center gap-4">
+                            <motion.div
+                              className="text-6xl"
+                              animate={{ rotate: [0, 10, -10, 0] }}
+                              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                              {selectedChar.avatar}
+                            </motion.div>
+                            <div>
+                              <h3 className={`text-2xl font-bold ${colors.text} mb-1`}>
+                                {selectedChar.name}
+                              </h3>
+                              <p className="text-sm text-white/60 italic">
+                                "{selectedChar.quote}"
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setActiveCharacter(null)}
+                            className={`rounded-lg ${colors.border} ${colors.bg} p-2 hover:opacity-80 transition cursor-pointer`}
+                            aria-label="Close character view"
+                          >
+                            <svg className="h-5 w-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Character message */}
+                        <div className="mb-6 p-4 rounded-xl border border-white/10 bg-black/20 backdrop-blur-sm">
+                          <div className="flex items-start gap-3">
+                            <MessageCircle className={`h-5 w-5 ${colors.text} shrink-0 mt-0.5`} />
+                            <p className="text-white/80 leading-relaxed">{selectedChar.message}</p>
+                          </div>
+                        </div>
+
+                        {/* Validation point */}
+                        <div className="border-t border-white/10 pt-6">
+                          <div
+                            onClick={() => setExpandedIndex(expandedIndex === 0 ? null : 0)}
+                            className="cursor-pointer"
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-3">
+                                {(() => {
+                                  const Icon = selectedChar.validation.icon;
+                                  return (
+                                    <div className={`rounded-xl ${colors.border} ${colors.bg} p-2`}>
+                                      <Icon className={`h-5 w-5 ${colors.text}`} />
+                                    </div>
+                                  );
+                                })()}
+                                <h4 className="text-lg font-semibold text-white">
+                                  {selectedChar.validation.title}
+                                </h4>
+                              </div>
+                              <motion.div
+                                animate={{ rotate: expandedIndex === 0 ? 90 : 0 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <ChevronRight className={`h-5 w-5 ${colors.text}`} />
+                              </motion.div>
+                            </div>
+                            <AnimatePresence>
+                              {expandedIndex === 0 && (
+                                <motion.p
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: "auto" }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="text-sm text-white/70 leading-relaxed overflow-hidden"
+                                >
+                                  {selectedChar.validation.description}
+                                </motion.p>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        </div>
+                      </div>
+                    </TiltCard>
+                  </motion.div>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
 
       {/* OASIS connection footer */}
       {!activeCharacter && (

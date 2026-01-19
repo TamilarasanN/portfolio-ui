@@ -59,7 +59,12 @@ export function Navigation({ activeSection, menuOpen, setMenuOpen, setActiveSect
         onClose={() => setProfileModalOpen(false)}
         profile={{ name: profile.name, title: profile.title, photoUrl: profile.photoUrl }}
       />
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} profile={profile} />
+      <MobileMenu 
+        open={menuOpen} 
+        onClose={() => setMenuOpen(false)} 
+        profile={profile}
+        onProfileClick={() => setProfileModalOpen(true)}
+      />
 
       <div className="sticky top-0 z-40 border-b border-white/10 bg-[#070712]/75 backdrop-blur relative overflow-hidden">
         {/* OASIS-themed gradient background */}
@@ -72,40 +77,53 @@ export function Navigation({ activeSection, menuOpen, setMenuOpen, setActiveSect
           }}
         />
         <div className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <a href="#top" className="flex items-center gap-3" aria-label="Go to top">
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Mobile: Hamburger menu on left */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setProfileModalOpen(true);
-              }}
-              className="cursor-pointer transition-transform hover:scale-105 active:scale-95"
-              aria-label="View profile"
+              onClick={() => setMenuOpen(true)}
+              className="inline-flex items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-2 text-cyan-300 hover:bg-cyan-400/10 hover:border-cyan-400/30 transition cursor-pointer md:hidden"
+              aria-label="Open menu"
             >
-              {profile.photoUrl ? (
-                <div className="relative h-10 w-10 overflow-hidden rounded-xl border-2 border-white/20 bg-zinc-950/40 transition-all hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]">
-                  <Image
-                    src={profile.photoUrl}
-                    alt={`${profile.name} profile picture`}
-                    fill
-                    className="object-cover"
-                    priority
-                    unoptimized={true}
-                    sizes="40px"
-                  />
-                </div>
-              ) : (
-                <div className="relative h-9 w-9 rounded-2xl border border-white/10 bg-white/5 transition-all hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]">
-                  <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_35%_30%,rgba(56,189,248,0.35),transparent_55%)]" />
-                </div>
-              )}
+              <Menu className="h-5 w-5" />
             </button>
-            <div>
-              <div className="text-sm font-semibold leading-tight text-white">{profile.name}</div>
-              <div className="text-xs text-cyan-300/70 font-medium">{profile.status}</div>
-            </div>
-          </a>
+            
+            {/* Desktop: Profile section */}
+            <a href="#top" className="hidden md:flex items-center gap-3" aria-label="Go to top">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setProfileModalOpen(true);
+                }}
+                className="cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                aria-label="View profile"
+              >
+                {profile.photoUrl ? (
+                  <div className="relative h-10 w-10 overflow-hidden rounded-xl border-2 border-white/20 bg-zinc-950/40 transition-all hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                    <Image
+                      src={profile.photoUrl}
+                      alt={`${profile.name} profile picture`}
+                      fill
+                      className="object-cover"
+                      priority
+                      unoptimized={true}
+                      sizes="40px"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative h-9 w-9 rounded-2xl border border-white/10 bg-white/5 transition-all hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                    <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_35%_30%,rgba(56,189,248,0.35),transparent_55%)]" />
+                  </div>
+                )}
+              </button>
+              <div>
+                <div className="text-sm font-semibold leading-tight text-white">{profile.name}</div>
+                <div className="text-xs text-cyan-300/70 font-medium">{profile.status}</div>
+              </div>
+            </a>
+          </div>
 
           <div className="relative hidden items-center gap-1 md:flex">
             {[
@@ -160,15 +178,6 @@ export function Navigation({ activeSection, menuOpen, setMenuOpen, setActiveSect
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setMenuOpen(true)}
-              className="inline-flex items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-2 text-cyan-300 hover:bg-cyan-400/10 hover:border-cyan-400/30 transition md:hidden"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-
             <MagneticButton
               href={profile.linkedin}
               target="_blank"

@@ -283,31 +283,6 @@ export function Background() {
         </div>
       )}
 
-      {/* Holographic glitch overlay (subtle scan lines that flicker) - minimal */}
-      {!reduce && isMounted && (
-        <motion.div
-          className="absolute inset-0 opacity-5"
-          aria-hidden="true"
-          animate={{
-            opacity: [0.03, 0.05, 0.04, 0.05, 0.03],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{
-            background: `repeating-linear-gradient(
-              0deg,
-              transparent,
-              transparent 2px,
-              rgba(56,189,248,0.015) 2px,
-              rgba(56,189,248,0.015) 4px
-            )`,
-            mixBlendMode: "screen",
-          }}
-        />
-      )}
 
       {/* Hexagonal grid overlay (circuit board pattern) */}
       {!reduce && (
@@ -418,33 +393,6 @@ export function Background() {
         </div>
       )}
 
-             {/* Holographic Glitch Artifacts - Random glitch lines - minimal */}
-             {!reduce && isMounted && (
-               <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-                 {Array.from({ length: 2 }).map((_, i) => (
-                   <motion.div
-                     key={i}
-                     className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent"
-                     initial={{
-                       y: Math.random() * window.innerHeight,
-                       opacity: 0,
-                       scaleX: 0,
-                     }}
-                     animate={{
-                       opacity: [0, 0.3, 0],
-                       scaleX: [0, 1, 0],
-                       y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight],
-                     }}
-                     transition={{
-                       duration: 0.3,
-                       repeat: Infinity,
-                       repeatDelay: 15 + Math.random() * 20,
-                       ease: "linear",
-                     }}
-                   />
-                 ))}
-               </div>
-             )}
 
              {/* Digital Grid Distortion - Interactive grid that warps */}
              {!reduce && isMounted && (

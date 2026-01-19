@@ -2,19 +2,24 @@
 
 import { useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { Linkedin, X, ExternalLink } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
 interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
   profile: {
+    name: string;
+    title: string;
+    status: string;
     linkedin: string;
     resumeUrl: string;
     photoUrl?: string;
   };
+  onProfileClick?: () => void;
 }
 
-export function MobileMenu({ open, onClose, profile }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, profile, onProfileClick }: MobileMenuProps) {
   const reduce = useReducedMotion();
 
   useEffect(() => {
@@ -51,7 +56,7 @@ export function MobileMenu({ open, onClose, profile }: MobileMenuProps) {
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
             
             <div className="relative z-10">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-6">
                 <div className="inline-block rounded-full border border-cyan-400/20 bg-cyan-400/5 px-3 py-1 text-xs font-semibold text-cyan-300">
                   MENU
                 </div>
@@ -64,6 +69,44 @@ export function MobileMenu({ open, onClose, profile }: MobileMenuProps) {
                   <X className="h-5 w-5" />
                 </button>
               </div>
+
+              {/* Profile Section - Mobile */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (onProfileClick) {
+                    onProfileClick();
+                  }
+                  onClose();
+                }}
+                className="w-full mb-5 p-4 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 hover:bg-cyan-400/10 hover:border-cyan-400/30 transition cursor-pointer"
+                aria-label="View profile"
+              >
+                <div className="flex items-center gap-3">
+                  {profile.photoUrl ? (
+                    <div className="relative h-14 w-14 overflow-hidden rounded-xl border-2 border-white/20 bg-zinc-950/40 transition-all">
+                      <Image
+                        src={profile.photoUrl}
+                        alt={`${profile.name} profile picture`}
+                        fill
+                        className="object-cover"
+                        priority
+                        unoptimized={true}
+                        sizes="56px"
+                      />
+                    </div>
+                  ) : (
+                    <div className="relative h-14 w-14 rounded-2xl border border-white/10 bg-white/5">
+                      <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_35%_30%,rgba(56,189,248,0.35),transparent_55%)]" />
+                    </div>
+                  )}
+                  <div className="flex-1 text-left">
+                    <div className="text-base font-semibold text-white">{profile.name}</div>
+                    <div className="text-sm text-cyan-300/70 font-medium">{profile.status}</div>
+                    <div className="text-xs text-white/50 mt-0.5">{profile.title}</div>
+                  </div>
+                </div>
+              </button>
 
               <div className="mt-5 grid gap-2">
                 {[
