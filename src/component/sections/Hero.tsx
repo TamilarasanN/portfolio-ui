@@ -18,14 +18,6 @@ interface HeroProps {
 export function Hero({ profile }: HeroProps) {
   const reduce = useReducedMotion();
 
-  // Log profile data for debugging
-  console.log("[Hero] Profile data:", {
-    location: profile.location,
-    status: profile.status,
-    email: profile.email,
-    phone: profile.phone,
-  });
-
   return (
     <header id="top" className="mx-auto max-w-6xl px-4 py-12 md:py-16 relative">
       {/* OASIS-themed gradient background */}

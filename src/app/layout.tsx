@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { Background } from "@/component/atoms/Background";
 import { DigitalRain } from "@/component/atoms/DigitalRain";
+import { FirebaseAnalytics } from "@/component/atoms/FirebaseAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,11 +21,13 @@ export const metadata: Metadata = {
   description: "Personal portfolio website",
   icons: {
     icon: [
-      { url: "/parzival-avatar.jpeg", type: "image/jpeg" },
+      { url: "/parzival-avatar.jpeg", sizes: "any" },
       { url: "/parzival-avatar.jpeg", sizes: "32x32", type: "image/jpeg" },
       { url: "/parzival-avatar.jpeg", sizes: "16x16", type: "image/jpeg" },
     ],
-    apple: "/parzival-avatar.jpeg",
+    apple: [
+      { url: "/parzival-avatar.jpeg", sizes: "180x180", type: "image/jpeg" },
+    ],
     shortcut: "/parzival-avatar.jpeg",
   },
 };
@@ -40,6 +44,9 @@ export default function RootLayout({
       >
         <Background />
         <DigitalRain />
+        <Suspense fallback={null}>
+          <FirebaseAnalytics />
+        </Suspense>
         {children}
       </body>
     </html>

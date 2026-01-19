@@ -121,7 +121,6 @@ class StrapiClient {
       const response = await this.fetchFromStrapi<StrapiProfile>("/profile?populate=*");
       
       if (!response || !response.data) {
-        console.log("[Profile] No response or data from Strapi");
         return null;
       }
       
@@ -132,15 +131,10 @@ class StrapiClient {
       if (Array.isArray(data)) {
         // If array, get first item
         profile = data[0];
-        console.log("[Profile] Response is array, using first item");
       } else {
         // If single object, return directly (Strapi v5 format)
         profile = data;
-        console.log("[Profile] Response is single object");
       }
-
-      console.log("[Profile] Raw profile data:", JSON.stringify(profile, null, 2));
-      console.log("[Profile] Photo field:", profile.photo);
       
       // Extract photo URL from Strapi media field
       // Handle multiple Strapi formats:
@@ -149,46 +143,31 @@ class StrapiClient {
       // 3. photo.data.attributes.url (Strapi v4 format)
       let photoUrl: string | undefined;
       if (profile.photo) {
-        console.log("[Profile] Photo field exists, extracting URL...");
-        
         // Check if photo has direct url property (Strapi v5 direct format)
         if (profile.photo.url && !profile.photo.data) {
           photoUrl = profile.photo.url;
-          console.log("[Profile] Extracted photoUrl from direct photo.url:", photoUrl);
         } 
         // Check if photo has data property (populated format)
         else if (profile.photo.data) {
           const photoData = Array.isArray(profile.photo.data) 
             ? profile.photo.data[0] 
             : profile.photo.data;
-          console.log("[Profile] Photo data structure:", JSON.stringify(photoData, null, 2));
           
           // Try multiple formats
           photoUrl = photoData?.attributes?.url || photoData?.url;
-          console.log("[Profile] Extracted photoUrl from photo.data:", photoUrl);
         }
         // Fallback: check if url exists in photo directly
         else if (profile.photo.url) {
           photoUrl = profile.photo.url;
-          console.log("[Profile] Extracted photoUrl from photo.url (fallback):", photoUrl);
         }
       } else if (profile.photoUrl) {
         // Already extracted
         photoUrl = profile.photoUrl;
-        console.log("[Profile] Using existing photoUrl:", photoUrl);
-      } else {
-        console.log("[Profile] No photo field or photoUrl found");
       }
 
       // If photoUrl is relative, make it absolute using baseUrl
       if (photoUrl && !photoUrl.startsWith('http')) {
-        const originalUrl = photoUrl;
         photoUrl = `${this.baseUrl}${photoUrl}`;
-        console.log("[Profile] Converted relative URL:", originalUrl, "->", photoUrl);
-      }
-
-      if (photoUrl) {
-        console.log("[Profile] Final photoUrl:", photoUrl);
       }
       
       // Normalize phone to array format
@@ -212,13 +191,6 @@ class StrapiClient {
         photoUrl: photoUrl,
         phone: phone,
       };
-
-      console.log("[Profile] Final mapped profile:", {
-        name: mappedProfile.name,
-        title: mappedProfile.title,
-        status: mappedProfile.status,
-        photoUrl: mappedProfile.photoUrl,
-      });
 
       return mappedProfile;
     } catch (error) {

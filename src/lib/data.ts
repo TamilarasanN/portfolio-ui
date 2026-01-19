@@ -55,7 +55,6 @@ export function getIconByName(name: string) {
 export async function getPortfolioData() {
   try {
     // Try to fetch from Strapi
-    console.log("[Data] Fetching portfolio data from Strapi...");
     const [profile, projects, skills, experiences, howIWork] = await Promise.all([
       strapi.getProfile(),
       strapi.getProjects(),
@@ -63,12 +62,6 @@ export async function getPortfolioData() {
       strapi.getWorkExperiences(),
       strapi.getHowIWork(),
     ]);
-
-    console.log("[Data] Fetched profile:", profile ? {
-      name: profile.name,
-      title: profile.title,
-      photoUrl: profile.photoUrl,
-    } : "null");
 
       // Format dates from Strapi (ISO format like "2021-01-01") to year only for work experiences
       const formatDate = (dateStr: string | undefined): string | undefined => {
