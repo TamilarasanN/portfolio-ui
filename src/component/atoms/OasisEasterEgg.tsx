@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const OASIS_SEQUENCE = ["o", "a", "s", "i", "s"];
@@ -58,21 +59,24 @@ export function useOasisEasterEgg() {
       // Check if sequence is complete
       if (newSequence.length === OASIS_SEQUENCE.length) {
         setIsActive(true);
-        setShowBreaking(true);
         
-        // Trigger breaking animation
-        document.body.classList.add("oasis-breaking");
+        // Only trigger breaking animation on desktop (not mobile)
+        const isMobile = window.innerWidth < 768;
+        if (!isMobile) {
+          setShowBreaking(true);
+          document.body.classList.add("oasis-breaking");
+          
+          // Remove breaking class after animation
+          setTimeout(() => {
+            document.body.classList.remove("oasis-breaking");
+            setShowBreaking(false);
+          }, 2000);
+        }
         
-        // Show message after breaking animation
+        // Show message (after breaking animation on desktop, immediately on mobile)
         setTimeout(() => {
           setShowMessage(true);
-          setShowBreaking(false);
-        }, 1500);
-
-        // Remove breaking class
-        setTimeout(() => {
-          document.body.classList.remove("oasis-breaking");
-        }, 2000);
+        }, isMobile ? 0 : 1500);
 
         // Hide message after 5 seconds
         setTimeout(() => {
@@ -149,44 +153,10 @@ function BreakingParticles() {
   );
 }
 
-// Glitch text effect
+// Simple text effect (no glitch on mobile)
 function GlitchText({ children }: { children: React.ReactNode }) {
   return (
     <span className="relative inline-block">
-      <motion.span
-        className="absolute inset-0"
-        animate={{
-          x: [0, -2, 2, -1, 1, 0],
-          opacity: [1, 0.8, 1, 0.9, 1],
-        }}
-        transition={{
-          duration: 0.3,
-          times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-        }}
-        style={{
-          color: "transparent",
-          WebkitTextStroke: "1px rgba(168, 85, 247, 0.5)",
-        }}
-      >
-        {children}
-      </motion.span>
-      <motion.span
-        className="absolute inset-0"
-        animate={{
-          x: [0, 2, -2, 1, -1, 0],
-          opacity: [0.8, 1, 0.9, 1, 0.8, 1],
-        }}
-        transition={{
-          duration: 0.3,
-          times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-        }}
-        style={{
-          color: "transparent",
-          WebkitTextStroke: "1px rgba(56, 189, 248, 0.5)",
-        }}
-      >
-        {children}
-      </motion.span>
       <span className="relative">{children}</span>
     </span>
   );
@@ -194,12 +164,22 @@ function GlitchText({ children }: { children: React.ReactNode }) {
 
 export function OasisEasterEgg() {
   const { showMessage, showBreaking, showHint } = useOasisEasterEgg();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <>
-      {/* Breaking animation overlay */}
+      {/* Breaking animation overlay - Desktop only */}
       <AnimatePresence>
-        {showBreaking && (
+        {showBreaking && !isMobile && (
           <>
             <BreakingParticles />
             <motion.div

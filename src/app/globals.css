@@ -157,63 +157,95 @@ div[style*="left: 0"][style*="bottom: 0"] {
   }
 }
 
-body.oasis-breaking {
-  animation: oasisBreaking 1.5s ease-in-out, oasisScreenShake 1.5s ease-in-out;
-  position: relative;
-  overflow: hidden;
+/* Disable glitch/breaking effects on mobile devices */
+@media (min-width: 768px) {
+  body.oasis-breaking {
+    animation: oasisBreaking 1.5s ease-in-out, oasisScreenShake 1.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+  }
+
+  body.oasis-breaking::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9997;
+    background: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(56, 189, 248, 0.03) 2px,
+        rgba(56, 189, 248, 0.03) 4px
+      ),
+      radial-gradient(
+        circle at center,
+        rgba(56, 189, 248, 0.2),
+        rgba(168, 85, 247, 0.15),
+        transparent 70%
+      );
+    animation: oasisGlitch 1.5s steps(10) infinite;
+    mix-blend-mode: screen;
+  }
+
+  body.oasis-breaking::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9996;
+    background: 
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(168, 85, 247, 0.1) 50%,
+        transparent 100%
+      );
+    animation: oasisBreaking 1.5s ease-in-out;
+    mix-blend-mode: overlay;
+  }
+
+  /* Intense glow on interactive elements during breaking */
+  body.oasis-breaking [class*="tilt-card"],
+  body.oasis-breaking [class*="magnetic-button"],
+  body.oasis-breaking [class*="border-cyan"],
+  body.oasis-breaking [class*="border-green"],
+  body.oasis-breaking [class*="border-purple"] {
+    box-shadow: 
+      0 0 30px rgba(56, 189, 248, 0.6),
+      0 0 60px rgba(168, 85, 247, 0.4),
+      0 0 90px rgba(34, 197, 94, 0.3);
+    transition: box-shadow 0.1s ease;
+    animation: oasisBreaking 1.5s ease-in-out;
+  }
 }
 
-body.oasis-breaking::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9997;
-  background: 
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(56, 189, 248, 0.03) 2px,
-      rgba(56, 189, 248, 0.03) 4px
-    ),
-    radial-gradient(
-      circle at center,
-      rgba(56, 189, 248, 0.2),
-      rgba(168, 85, 247, 0.15),
-      transparent 70%
-    );
-  animation: oasisGlitch 1.5s steps(10) infinite;
-  mix-blend-mode: screen;
-}
+/* Completely disable all breaking/glitch effects on mobile devices */
+@media (max-width: 767px) {
+  body.oasis-breaking,
+  body.oasis-breaking * {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
 
-body.oasis-breaking::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9996;
-  background: 
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(168, 85, 247, 0.1) 50%,
-      transparent 100%
-    );
-  animation: oasisBreaking 1.5s ease-in-out;
-  mix-blend-mode: overlay;
-}
+  body.oasis-breaking::before,
+  body.oasis-breaking::after {
+    display: none !important;
+    content: none !important;
+  }
 
-/* Intense glow on interactive elements during breaking */
-body.oasis-breaking [class*="tilt-card"],
-body.oasis-breaking [class*="magnetic-button"],
-body.oasis-breaking [class*="border-cyan"],
-body.oasis-breaking [class*="border-green"],
-body.oasis-breaking [class*="border-purple"] {
-  box-shadow: 
-    0 0 30px rgba(56, 189, 248, 0.6),
-    0 0 60px rgba(168, 85, 247, 0.4),
-    0 0 90px rgba(34, 197, 94, 0.3);
-  transition: box-shadow 0.1s ease;
-  animation: oasisBreaking 1.5s ease-in-out;
+  body.oasis-breaking [class*="tilt-card"],
+  body.oasis-breaking [class*="magnetic-button"],
+  body.oasis-breaking [class*="border-cyan"],
+  body.oasis-breaking [class*="border-green"],
+  body.oasis-breaking [class*="border-purple"],
+  body.oasis-breaking [class*="border-orange"],
+  body.oasis-breaking [class*="border-red"] {
+    animation: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
 }
