@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Code2, Zap, Gamepad2, Sparkles, Eye, MessageCircle, ChevronRight } from "lucide-react";
 import { TiltCard } from "../interactive/TiltCard";
 
@@ -120,8 +120,17 @@ const colorMap = {
 
 // Export the content separately so it can be used in modal
 export function ThemeValidationContent() {
+  const reduce = useReducedMotion();
   const [activeCharacter, setActiveCharacter] = useState<string | null>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const selectedChar = activeCharacter ? characters.find((c) => c.id === activeCharacter) : null;
   const colors = selectedChar ? colorMap[selectedChar.color as keyof typeof colorMap] : colorMap.cyan;
@@ -212,17 +221,17 @@ export function ThemeValidationContent() {
                       as="div"
                       className={`relative overflow-hidden p-6 md:p-8 border-2 ${colors.border} ${colors.bg}`}
                     >
-                      {/* Animated background glow */}
+                      {/* Animated background glow - Disabled on mobile to prevent blinking */}
                       <motion.div
-                        className="absolute inset-0 opacity-40"
-                        animate={{
+                        className="absolute inset-0 opacity-40 hidden md:block"
+                        animate={reduce || isMobile ? {} : {
                           background: [
                             `radial-gradient(circle at 20% 30%, ${colors.glow}, transparent 50%)`,
                             `radial-gradient(circle at 80% 70%, ${colors.glow}, transparent 50%)`,
                             `radial-gradient(circle at 20% 30%, ${colors.glow}, transparent 50%)`,
                           ],
                         }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        transition={reduce || isMobile ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
                       />
 
                       <div className="relative z-10">
@@ -231,8 +240,8 @@ export function ThemeValidationContent() {
                           <div className="flex items-center gap-4">
                             <motion.div
                               className="text-6xl"
-                              animate={{ rotate: [0, 10, -10, 0] }}
-                              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                              animate={reduce || isMobile ? {} : { rotate: [0, 10, -10, 0] }}
+                              transition={reduce || isMobile ? {} : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
                               {selectedChar.avatar}
                             </motion.div>

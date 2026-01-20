@@ -81,13 +81,13 @@ export function ProfileCardModal({ open, onClose, profile }: ProfileCardModalPro
             </div>
 
             <TiltCard as="div" className="relative overflow-hidden p-8">
-              {/* Enhanced neon border gradient */}
+              {/* Enhanced neon border gradient - Disabled pulse on mobile to prevent blinking */}
               <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-100">
-                <div className="absolute -inset-[2px] rounded-3xl bg-[conic-gradient(from_180deg,rgba(56,189,248,0.8),rgba(168,85,247,0.8),rgba(34,197,94,0.6),rgba(56,189,248,0.8))] blur-[12px] animate-pulse" />
+                <div className="absolute -inset-[2px] rounded-3xl bg-[conic-gradient(from_180deg,rgba(56,189,248,0.8),rgba(168,85,247,0.8),rgba(34,197,94,0.6),rgba(56,189,248,0.8))] blur-[12px] hidden md:block md:animate-pulse" />
               </div>
 
-              {/* Outer glow effect */}
-              <div className="pointer-events-none absolute -inset-12 rounded-3xl opacity-60">
+              {/* Outer glow effect - Disabled on mobile to prevent blinking */}
+              <div className="pointer-events-none absolute -inset-12 rounded-3xl opacity-60 hidden md:block">
                 <div className="absolute inset-0 rounded-3xl bg-[radial-gradient(closest-side,rgba(56,189,248,0.3),rgba(168,85,247,0.2),rgba(0,0,0,0))] blur-xl" />
               </div>
 

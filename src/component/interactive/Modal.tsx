@@ -51,30 +51,30 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
             {/* OASIS neon header bar */}
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 via-purple-400 via-fuchsia-400/50 to-transparent" />
             
-            {/* Outer glow effect */}
-            <div className="pointer-events-none absolute -inset-8 rounded-3xl opacity-40">
+            {/* Outer glow effect - Disabled on mobile to prevent blinking */}
+            <div className="pointer-events-none absolute -inset-8 rounded-3xl opacity-40 hidden md:block">
               <div className="absolute inset-0 rounded-3xl bg-[radial-gradient(closest-side,rgba(56,189,248,0.25),rgba(168,85,247,0.15),rgba(0,0,0,0))] blur-xl" />
             </div>
             
-            {/* Scanline overlay */}
+            {/* Scanline overlay - Disabled on mobile to prevent blinking */}
             <div
-              className="absolute inset-0 pointer-events-none opacity-[0.08]"
+              className="absolute inset-0 pointer-events-none opacity-[0.08] hidden md:block"
               style={{
                 background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(56,189,248,0.3) 2px, rgba(56,189,248,0.3) 4px)",
               }}
             />
             
-            {/* Animated background glow */}
+            {/* Animated background glow - Disabled on mobile to prevent blinking */}
             <motion.div
-              className="absolute inset-0 opacity-20"
-              animate={{
+              className="absolute inset-0 opacity-20 hidden md:block"
+              animate={reduce ? {} : {
                 background: [
                   "radial-gradient(circle at 20% 30%, rgba(56,189,248,0.15), transparent 50%)",
                   "radial-gradient(circle at 80% 70%, rgba(168,85,247,0.15), transparent 50%)",
                   "radial-gradient(circle at 20% 30%, rgba(56,189,248,0.15), transparent 50%)",
                 ],
               }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              transition={reduce ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
 
             <div className="relative z-10 flex items-center justify-between border-b border-cyan-400/20 bg-zinc-950/50 backdrop-blur-sm px-6 py-4 shrink-0">

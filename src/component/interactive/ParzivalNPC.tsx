@@ -2,18 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { ThemeValidationContent } from "../sections/ThemeValidation";
 
 export function ParzivalNPC() {
+  const reduce = useReducedMotion();
   const [modalOpen, setModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
@@ -55,9 +61,9 @@ export function ParzivalNPC() {
             {/* OASIS Header Bar */}
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400" />
 
-            {/* Scanline overlay */}
+            {/* Scanline overlay - Disabled on mobile to prevent blinking */}
             <div
-              className="absolute inset-0 pointer-events-none opacity-10"
+              className="absolute inset-0 pointer-events-none opacity-10 hidden md:block"
               style={{
                 background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(56,189,248,0.3) 2px, rgba(56,189,248,0.3) 4px)",
               }}
@@ -68,8 +74,8 @@ export function ParzivalNPC() {
               <div className="flex items-center gap-4">
                 <motion.div
                   className="text-4xl"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  animate={reduce || isMobile ? {} : { rotate: [0, 10, -10, 0] }}
+                  transition={reduce || isMobile ? {} : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
                   🎮
                 </motion.div>
@@ -115,14 +121,14 @@ export function ParzivalNPC() {
               whileTap={{ scale: 0.95 }}
               aria-label="Talk to Parzival"
             >
-        {/* Glow effect */}
+        {/* Glow effect - Disabled on mobile to prevent blinking */}
         <motion.div
-          className="absolute inset-0 rounded-2xl bg-green-400/30 blur-xl"
-          animate={{
+          className="absolute inset-0 rounded-2xl bg-green-400/30 blur-xl hidden md:block"
+          animate={reduce || isMobile ? {} : {
             opacity: [0.4, 0.7, 0.4],
             scale: [1, 1.2, 1],
           }}
-          transition={{
+          transition={reduce || isMobile ? {} : {
             duration: 2,
             repeat: Infinity,
             ease: "easeInOut",
@@ -132,10 +138,10 @@ export function ParzivalNPC() {
         {/* NPC Avatar - Parzival Character from Ready Player One */}
         <motion.div
           className="relative w-24 h-24 rounded-2xl border-2 border-green-400/50 bg-gradient-to-br from-green-500/20 via-cyan-500/20 to-green-500/20 backdrop-blur-sm flex items-center justify-center shadow-[0_0_40px_rgba(34,197,94,0.5)] overflow-hidden"
-          animate={{
+          animate={reduce || isMobile ? {} : {
             y: [0, -8, 0],
           }}
-          transition={{
+          transition={reduce || isMobile ? {} : {
             duration: 3,
             repeat: Infinity,
             ease: "easeInOut",
@@ -190,31 +196,31 @@ export function ParzivalNPC() {
             </div>
           )}
           
-          {/* Pulse indicator */}
+          {/* Pulse indicator - Disabled on mobile to prevent blinking */}
           <motion.div
-            className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green-400 border-2 border-zinc-950 z-10"
-            animate={{
+            className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green-400 border-2 border-zinc-950 z-10 hidden md:block"
+            animate={reduce || isMobile ? {} : {
               scale: [1, 1.3, 1],
               opacity: [1, 0.5, 1],
             }}
-            transition={{
+            transition={reduce || isMobile ? {} : {
               duration: 1.5,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
           
-          {/* Animated glow effect */}
+          {/* Animated glow effect - Disabled on mobile to prevent blinking */}
           <motion.div
-            className="absolute inset-0 rounded-2xl"
-            animate={{
+            className="absolute inset-0 rounded-2xl hidden md:block"
+            animate={reduce || isMobile ? {} : {
               boxShadow: [
                 "0 0 20px rgba(34,197,94,0.5)",
                 "0 0 40px rgba(34,197,94,0.8)",
                 "0 0 20px rgba(34,197,94,0.5)",
               ],
             }}
-            transition={{
+            transition={reduce || isMobile ? {} : {
               duration: 2,
               repeat: Infinity,
               ease: "easeInOut",

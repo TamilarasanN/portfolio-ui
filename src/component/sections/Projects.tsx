@@ -254,17 +254,17 @@ export function Projects({ projects }: ProjectsProps) {
                   const colorTheme = colors[idx % colors.length];
                   return (
                     <TiltCard key={m.label} as="div" className={`p-4 rounded-2xl border-2 ${colorTheme.border} ${colorTheme.bg} relative overflow-hidden`}>
-                      {/* Subtle glow */}
+                      {/* Subtle glow - Disabled on mobile to prevent blinking */}
                       <motion.div
-                        className="absolute inset-0 opacity-20"
-                        animate={{
+                        className="absolute inset-0 opacity-20 hidden md:block"
+                        animate={reduce ? {} : {
                           background: [
                             `radial-gradient(circle at 20% 30%, ${colorTheme.glow}, transparent 50%)`,
                             `radial-gradient(circle at 80% 70%, ${colorTheme.glow}, transparent 50%)`,
                             `radial-gradient(circle at 20% 30%, ${colorTheme.glow}, transparent 50%)`,
                           ],
                         }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        transition={reduce ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
                       />
                       <div className="relative z-10">
                         <div className={`text-xs font-semibold ${colorTheme.text} uppercase tracking-wider`}>{m.label}</div>
@@ -286,17 +286,17 @@ export function Projects({ projects }: ProjectsProps) {
                 const colorTheme = colors[idx % colors.length];
                 return (
                   <TiltCard key={x.label} as="div" className={`p-4 rounded-2xl border-2 ${colorTheme.border} ${colorTheme.bg} relative overflow-hidden`}>
-                    {/* Subtle glow */}
+                    {/* Subtle glow - Disabled on mobile to prevent blinking */}
                     <motion.div
-                      className="absolute inset-0 opacity-20"
-                      animate={{
+                      className="absolute inset-0 opacity-20 hidden md:block"
+                      animate={reduce ? {} : {
                         background: [
                           `radial-gradient(circle at 20% 30%, ${colorTheme.glow}, transparent 50%)`,
                           `radial-gradient(circle at 80% 70%, ${colorTheme.glow}, transparent 50%)`,
                           `radial-gradient(circle at 20% 30%, ${colorTheme.glow}, transparent 50%)`,
                         ],
                       }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      transition={reduce ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     />
                     <div className="relative z-10">
                       <div className={`text-xs font-semibold ${colorTheme.text} uppercase tracking-wider`}>{x.label}</div>
