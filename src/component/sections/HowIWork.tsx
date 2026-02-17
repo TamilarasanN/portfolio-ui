@@ -36,8 +36,8 @@ export function HowIWork({ items }: HowIWorkProps) {
     >
       <SectionTitle
         kicker="WORKING STYLE"
-        title="How I build"
-        desc="Fast delivery — but with guardrails: reliability, performance, and scalable foundations."
+        title="How I Work"
+        desc="Fast delivery, but with guardrails: reliability, performance, and scalable foundations."
         kickerColor="red"
       />
 

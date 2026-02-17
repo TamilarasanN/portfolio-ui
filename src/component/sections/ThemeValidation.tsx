@@ -15,11 +15,11 @@ const characters = [
     color: "cyan",
     quote: "I created the OASIS because I never felt at home in the real world.",
     message:
-      "The OASIS represents limitless possibility—where technology transcends boundaries. As a developer, I build digital experiences where users can be whoever they want to be, just like in the OASIS.",
+      "The OASIS represents limitless possibility, where technology transcends boundaries. As a developer, I build digital experiences where users can be whoever they want to be, just like in the OASIS.",
     validation: {
       icon: Code2,
       title: "Virtual Reality & Innovation",
-      description: "Ready Player One represents the pinnacle of virtual reality and digital innovation—core values in modern web development. I build immersive digital experiences that push boundaries.",
+      description: "Ready Player One represents the pinnacle of virtual reality and digital innovation, core values in modern web development. I build immersive digital experiences that push boundaries.",
     },
   },
   {
@@ -29,7 +29,7 @@ const characters = [
     color: "green",
     quote: "People come to the OASIS for all the things they can do, but they stay for all the things they can be.",
     message:
-      "Every user interaction should feel like an adventure. I craft experiences that are not just functional, but transformative—where performance meets imagination.",
+      "Every user interaction should feel like an adventure. I craft experiences that are not just functional, but transformative, where performance meets imagination.",
     validation: {
       icon: Gamepad2,
       title: "Gaming & Interactive Experiences",
@@ -43,11 +43,11 @@ const characters = [
     color: "purple",
     quote: "The OASIS was a place where the limits of reality were your own imagination.",
     message:
-      "Seamless performance isn't optional—it's essential. Just as the OASIS runs flawlessly for millions, I optimize every aspect of my applications for speed and reliability.",
+      "Seamless performance isn't optional, it's essential. Just as the OASIS runs flawlessly for millions, I optimize every aspect of my applications for speed and reliability.",
     validation: {
       icon: Zap,
       title: "Performance & Optimization",
-      description: "In the OASIS, seamless performance is critical. I prioritize performance optimization, efficient rendering, and smooth animations—ensuring every interaction feels instant and fluid.",
+      description: "In the OASIS, seamless performance is critical. I prioritize performance optimization, efficient rendering, and smooth animations,ensuring every interaction feels instant and fluid.",
     },
   },
   {
@@ -57,7 +57,7 @@ const characters = [
     color: "orange",
     quote: "You can be whoever you want to be in the OASIS.",
     message:
-      "Creative problem-solving under pressure—that's what separates great developers. I tackle complex challenges with innovative solutions, just like navigating the OASIS quests.",
+      "Creative problem-solving under pressure, that's what separates great developers. I tackle complex challenges with innovative solutions, just like navigating the OASIS quests.",
     validation: {
       icon: Sparkles,
       title: "Creative Problem Solving",

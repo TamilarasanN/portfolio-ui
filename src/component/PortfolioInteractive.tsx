@@ -94,7 +94,7 @@ export default function PortfolioInteractive({
     return sections;
   }, [featuredProjects.length]);
   
-  const scrollActiveSection = useScrollSpy(scrollSpySections, "-35% 0px -55% 0px", !isManualNavigation);
+  const scrollActiveSection = useScrollSpy(scrollSpySections, "-20% 0px -50% 0px", !isManualNavigation);
   
   // Update active section based on scroll spy when not manually navigating
   // NEVER allow scroll spy to override a locked section

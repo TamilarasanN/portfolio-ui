@@ -27,12 +27,17 @@ export function useScrollSpy(sectionIds: string[], rootMargin = "-35% 0px -55% 0
       (entries) => {
         const visible = entries.filter((e) => e.isIntersecting);
         if (!visible.length) return;
-        // pick the one with highest intersectionRatio
-        visible.sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0));
+        // Pick the topmost visible section (closest to top of viewport) so tall sections
+        // don't dominate; indicator follows scroll correctly through Featured → Projects → Experience
+        visible.sort((a, b) => {
+          const aTop = (a.target as HTMLElement).getBoundingClientRect().top;
+          const bTop = (b.target as HTMLElement).getBoundingClientRect().top;
+          return aTop - bTop;
+        });
         const newActive = (visible[0].target as HTMLElement).id;
         setActive(newActive);
       },
-      { root: null, threshold: [0.1, 0.2, 0.35, 0.5, 0.75], rootMargin }
+      { root: null, threshold: [0, 0.1, 0.2, 0.35, 0.5, 0.75], rootMargin }
     );
 
     els.forEach((el) => obs.observe(el));

@@ -29,7 +29,7 @@ export function Skills({ skills }: SkillsProps) {
       <SectionTitle
         kicker="CAPABILITIES"
         title="Skills"
-        desc="Hover the chips — neon lift + ring outline."
+        desc="Hover the chips, neon lift + ring outline."
         kickerColor="orange"
       />
 
